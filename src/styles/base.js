@@ -243,6 +243,13 @@ const extendColumnWidth = 2 * columnWidth;
 const gridDefaultWidth = 800;
 const gridDefaultHeight = 600;
 
+// Floating Time display
+const timeDisplayBorderRadius = 32;
+const timeDisplayHeight = 64;
+const timeDisplayMinWidth = 176;
+const timeDisplayOpacity = 0.8;
+const timeDisplayPadding = '0 24px';
+
 export const textTruncate = {
   maxWidth: '100%',
   overflow: 'hidden',
@@ -1003,6 +1010,12 @@ export const theme = {
   gridDefaultWidth,
   gridDefaultHeight,
 
+  // time display
+  timeDisplayBorderRadius,
+  timeDisplayHeight,
+  timeDisplayMinWidth,
+  timeDisplayOpacity,
+  timeDisplayPadding,
   // Breakpoints
   breakPoints
 };

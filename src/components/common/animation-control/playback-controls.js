@@ -42,15 +42,18 @@ const IconButton = styled(Button)`
   }
 `;
 
+function nop() {};
+const DEFAULT_BUTTON_HEIGHT = '18px';
+
 function AnimationPlaybacksFactory() {
   const AnimationPlaybacks = ({
     isAnimatable,
     isAnimating,
     buttonStyle,
-    pauseAnimation = () => {},
-    updateAnimationTime = () => {},
-    startAnimation = () => {},
-    buttonHeight = '18px'
+    pauseAnimation = nop,
+    updateAnimationTime = nop,
+    startAnimation = nop,
+    buttonHeight = DEFAULT_BUTTON_HEIGHT
   }) => {
     const btnStyle = buttonStyle ? {[buttonStyle]: true} : {};
     return (

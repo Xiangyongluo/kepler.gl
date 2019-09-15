@@ -27,16 +27,16 @@ import {DEFAULT_TIME_FORMAT} from 'constants/default-settings';
 
 const StyledTimeDisplay = styled.div`
   background-color: ${props => props.theme.panelBackground};
-  border-radius: 32px;
+  border-radius: ${props => props.theme.timeDisplayBorderRadius}px;
   bottom: ${props => `calc(100% + ${props.theme.bottomPanelGap}px)`};
   color: ${props => props.theme.titleTextColor};
   display: flex;
-  height: 64px;
+  height: ${props => props.theme.timeDisplayHeight}px;
   justify-content: center;
   left: calc(50% - 88px);
-  min-width: 176px;
-  opacity: 0.8;
-  padding: 0 24px;
+  min-width: ${props => props.theme.timeDisplayMinWidth}px;
+  opacity: ${props => props.theme.timeDisplayOpacity};
+  padding: ${props => props.theme.timeDisplayPadding};
   position: absolute;
 `;
 
