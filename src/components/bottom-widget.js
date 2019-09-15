@@ -107,8 +107,8 @@ export default function BottomWidgetFactory(TimeWidget, AnimationControl) {
             showTimeDisplay={showFloatingTimeDisplay}
             setFilterPlot={visStateActions.setFilterPlot}
             setFilter={visStateActions.setFilter}
-            toggleAnimation={visStateActions.toggleAnimation}
-            updateAnimationSpeed={visStateActions.updateAnimationSpeed}
+            toggleAnimation={visStateActions.toggleFilterAnimation}
+            updateAnimationSpeed={visStateActions.updateFilterAnimationSpeed}
             enlargeFilter={visStateActions.enlargeFilter}
           />
         ) : null}

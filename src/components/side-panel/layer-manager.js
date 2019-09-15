@@ -177,8 +177,7 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
         layers,
         datasets,
         layerOrder,
-        openModal,
-        enableLayerAnimation
+        openModal
       } = this.props;
       const defaultDataset = Object.keys(datasets)[0];
       const layerTypeOptions = this.layerTypeOptionsSelector(this.props);
@@ -195,8 +194,7 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
       const panelProps = {
         datasets,
         openModal,
-        layerTypeOptions,
-        enableLayerAnimation
+        layerTypeOptions
       };
 
       return (

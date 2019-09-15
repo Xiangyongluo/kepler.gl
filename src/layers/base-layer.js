@@ -455,21 +455,21 @@ export default class Layer {
    * make sure to only copy over value to existing keys
    * @param {object} currentConfig - existing config to be override
    * @param {object} configToCopy - new Config to copy over
-   * @param {string[]} notToDeepMerge - array of properties to not to be deep copied
+   * @param {string[]} shallowCopy - array of properties to not to be deep copied
    * @param {string[]} notToCopy - array of properties not to copy
    * @returns {object} - copied config
    */
   copyLayerConfig(
     currentConfig,
     configToCopy,
-    {notToDeepMerge = [], notToCopy = []} = {}
+    {shallowCopy = [], notToCopy = []} = {}
   ) {
     const copied = {};
     Object.keys(currentConfig).forEach(key => {
       if (
         isPlainObject(currentConfig[key]) &&
         isPlainObject(configToCopy[key]) &&
-        !notToDeepMerge.includes(key) &&
+        !shallowCopy.includes(key) &&
         !notToCopy.includes(key)
       ) {
         // recursively assign object value
@@ -477,7 +477,7 @@ export default class Layer {
           currentConfig[key],
           configToCopy[key],
           {
-            notToDeepMerge,
+            shallowCopy,
             notToCopy
           }
         );

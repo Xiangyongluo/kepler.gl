@@ -25,11 +25,10 @@
  * @param {Object} layerClasses
  * @returns {Array} found layers
  */
-export function findDefaultLayer(dataset, layerClasses) {
+export function findDefaultLayer(dataset, layerClasses = {}) {
   if (!dataset) {
     return [];
   }
-
   const layerProps = Object.keys(layerClasses).reduce((previous, lc) => {
     const result =
       typeof layerClasses[lc].findDefaultLayerProps === 'function'

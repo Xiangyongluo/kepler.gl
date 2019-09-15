@@ -128,9 +128,9 @@ export default class IconLayer extends Layer {
     }
   }
 
-  static findDefaultLayerProps({fieldPairs, fields}) {
+  static findDefaultLayerProps({fieldPairs = [], fields = []}) {
     const notFound = {props: []};
-    if (!fieldPairs.length) {
+    if (!fieldPairs.length || !fields.length) {
       return notFound;
     }
 

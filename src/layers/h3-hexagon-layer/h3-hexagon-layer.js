@@ -97,7 +97,7 @@ export default class HexagonIdLayer extends Layer {
     };
   }
 
-  static findDefaultLayerProps({fields}) {
+  static findDefaultLayerProps({fields = []}) {
     const foundColumns = this.findDefaultColumnField(HEXAGON_ID_FIELDS, fields);
     if (!foundColumns || !foundColumns.length) {
       return {props: []};

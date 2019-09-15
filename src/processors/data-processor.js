@@ -412,7 +412,6 @@ export function processRowObject(rawData) {
  * }));
  */
 export function processGeojson(rawData) {
-  console.time('processGeojson')
   const normalizedGeojson = normalize(rawData);
 
   if (!normalizedGeojson || !Array.isArray(normalizedGeojson.features)) {
@@ -459,7 +458,6 @@ export function processGeojson(rawData) {
     });
   });
   const processRow =  processRowObject(allData);
-  console.timeEnd('processGeojson')
   return processRow;
 }
 

@@ -31,6 +31,8 @@ import {DEFAULT_TEXT_LABEL} from 'layers/layer-factory';
 // fixtures
 import {testFields, testAllData} from 'test/fixtures/test-csv-data';
 import {fields, rows} from 'test/fixtures/geojson';
+import tripGeojson, {tripDataInfo} from 'test/fixtures/trip-geojson';
+import {processGeojson} from 'processors/data-processor';
 
 const geojsonFields = cloneDeep(fields);
 const geojsonRows = cloneDeep(rows);
@@ -94,6 +96,22 @@ function mockStateWithFileUpload() {
       l.config.visConfig.strokeColor = [i + 10, i + 10, i + 10];
     }
   });
+
+  return updatedState;
+}
+
+function mockStateWithTripGeojson() {
+  const initialState = cloneDeep(InitialState);
+
+  // load csv and geojson
+  const updatedState = applyActions(keplerGlReducer, initialState, [
+    {
+      action: VisStateActions.updateVisData,
+      payload: [
+        [{info: tripDataInfo, data: processGeojson(cloneDeep(tripGeojson))}]
+      ]
+    }
+  ]);
 
   return updatedState;
 }
@@ -293,6 +311,7 @@ export const StateWFilesFiltersLayerColor = mockStateWithLayerDimensions(
 
 export const StateWCustomMapStyle = mockStateWithCustomMapStyle();
 export const StateWSplitMaps = mockStateWithSplitMaps();
+export const StateWTripGeojson = mockStateWithTripGeojson();
 // saved hexagon layer
 export const expectedSavedLayer0 = {
   id: 'hexagon-2',

@@ -461,7 +461,7 @@ export function validateLayerWithData(
   const visConfig = newLayer.copyLayerConfig(
     newLayer.config.visConfig,
     savedLayer.config.visConfig || {},
-    {notToDeepMerge: ['colorRange', 'strokeColorRange']}
+    {shallowCopy: ['colorRange', 'strokeColorRange']}
   );
 
   newLayer.updateLayerConfig({

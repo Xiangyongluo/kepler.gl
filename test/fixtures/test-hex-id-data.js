@@ -274,7 +274,10 @@ mergedH3Layer.config = {
       anchor: 'start',
       alignment: 'center'
     }
-  ]
+  ],
+  animation: {
+    enabled: false
+  }
 };
 
 export const mergedFilters = [

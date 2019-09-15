@@ -958,11 +958,12 @@ mergedLayer0.config = {
     strokeColor: [181, 18, 65],
     enable3d: true,
     wireframe: false
-  }
+  },
+  animation: {enabled: false}
 };
 
 mergedLayer0.meta = {
-  bounds: [-75.135531, 40.213125, -73.949229, 41.172585]
+  bounds: [-75.135531, 40.213125, -73.949229, 41.172585],
   fixedRadius: false,
   featureTypes: {polygon: true}
 };
@@ -2734,11 +2735,12 @@ mergedLayer1.config = {
     enable3d: false,
     wireframe: false,
     strokeColor: [221, 178, 124]
-  }
+  },
+  animation: {enabled: false}
 };
 
 mergedLayer1.meta = {
-  bounds: [-75.135531, 40.213125, -73.949229, 41.172585]
+  bounds: [-75.135531, 40.213125, -73.949229, 41.172585],
   fixedRadius: false,
   featureTypes: {
     polygon: true

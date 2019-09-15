@@ -54,8 +54,7 @@ function LayerPanelFactory(LayerConfigurator) {
       layerVisConfigChange: PropTypes.func,
       layerVisualChannelConfigChange: PropTypes.func,
       updateAnimationTime: PropTypes.func,
-      updateLayerAnimationSpeed: PropTypes.func,
-      enableLayerAnimation: PropTypes.func
+      updateLayerAnimationSpeed: PropTypes.func
     };
 
     updateLayerConfig = newProp => {

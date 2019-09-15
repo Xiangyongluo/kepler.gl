@@ -137,7 +137,7 @@ export default class GeoJsonLayer extends Layer {
     return this.getFeature(this.config.columns);
   }
 
-  static findDefaultLayerProps({label, fields}) {
+  static findDefaultLayerProps({label, fields = []}) {
     const geojsonColumns = fields.filter(f => f.type === 'geojson').map(f => f.name);
 
     const defaultColumns = {
@@ -327,7 +327,6 @@ export default class GeoJsonLayer extends Layer {
   /* eslint-enable complexity */
 
   updateLayerMeta(allData) {
-    console.time('updateLayerMeta Geojson')
 
     const getFeature = this.getPositionAccessor();
     this.dataToFeature = getGeojsonDataMaps(allData, getFeature);
@@ -347,7 +346,6 @@ export default class GeoJsonLayer extends Layer {
     const featureTypes = getGeojsonFeatureTypes(allFeatures);
 
     this.updateMeta({bounds, fixedRadius, featureTypes});
-    console.timeEnd('updateLayerMeta Geojson')
   }
 
   setInitialLayerConfig(allData) {

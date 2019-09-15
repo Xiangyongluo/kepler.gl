@@ -84,6 +84,12 @@ export default function TimeRangeSliderFactory(PlaybackControls) {
       );
     }
 
+    componentDidUpdate() {
+      if (!this._animation && this.state.isAnimating) {
+        this._animation = requestAnimationFrame(this._nextFrame);
+      }
+    }
+
     timeSelector = props => props.currentTime;
     formatSelector = props => props.format;
     displayTimeSelector = createSelector(
@@ -109,12 +115,6 @@ export default function TimeRangeSliderFactory(PlaybackControls) {
         );
       }
     );
-
-    componentDidUpdate() {
-      if (!this._animation && this.state.isAnimating) {
-        this._animation = requestAnimationFrame(this._nextFrame);
-      }
-    }
 
     _sliderUpdate = args => {
       this._sliderThrottle.cancel();

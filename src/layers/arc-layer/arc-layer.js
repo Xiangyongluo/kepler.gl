@@ -103,7 +103,7 @@ export default class ArcLayer extends Layer {
     };
     props.label = `${fieldPairs[0].defaultName} -> ${fieldPairs[1].defaultName} arc`;
 
-    return {props};
+    return {props: [props]};
   }
 
   // TODO: fix complexity

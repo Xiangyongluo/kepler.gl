@@ -1185,7 +1185,8 @@ mergedLayer2.config = {
     strokeColor: [218, 112, 191],
     fixedRadius: false,
     radiusRange: [1, 854.16]
-  }
+  },
+  animation: {enabled: false}
 };
 
 mergedLayer2.meta = {
@@ -1244,7 +1245,8 @@ mergedLayer3.config = {
     percentile: [0, 100],
     elevationPercentile: [0, 100],
     elevationScale: 10
-  }
+  },
+  animation: {enabled: false}
 };
 
 mergedLayer3.meta = {
@@ -1349,7 +1351,8 @@ mergedLayer4.config = {
     filled: true,
     enable3d: false,
     wireframe: false
-  }
+  },
+  animation: {enabled: false}
 };
 
 mergedLayer4.dataToFeature = {

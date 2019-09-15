@@ -22,7 +22,6 @@ import memoize from 'lodash.memoize';
 import uniq from 'lodash.uniq';
 import Layer from '../base-layer';
 import {TripsLayer as DeckGLTripsLayer} from 'deck.gl';
-import {extent} from 'd3-array';
 
 import {GEOJSON_FIELDS} from 'constants/default-settings';
 import TripLayerIcon from './trip-layer-icon';
@@ -30,10 +29,14 @@ import TripLayerIcon from './trip-layer-icon';
 import {
   getGeojsonDataMaps,
   getGeojsonBounds,
-  getGeojsonFeatureTypes,
+  getGeojsonFeatureTypes
+} from 'layers/geojson-layer/geojson-utils';
+
+import {
   isTripGeoJsonField,
   parseTripGeoJsonTimestamp
-} from '../geojson-layer/geojson-utils';
+} from './trip-utils';
+
 import {hexToRgb} from 'utils/color-utils';
 import TripInfoModalFactory from './trip-info-modal';
 
@@ -115,7 +118,7 @@ export default class TripLayer extends Layer {
     return this.getFeature(this.config.columns);
   }
 
-  static findDefaultLayerProps({label, fields, allData, id}, foundLayers) {
+  static findDefaultLayerProps({label, fields = [], allData = [], id}, foundLayers) {
     const geojsonColumns = fields
       .filter(f => f.type === 'geojson')
       .map(f => f.name);
@@ -126,7 +129,7 @@ export default class TripLayer extends Layer {
 
     const geoJsonColumns = this.findDefaultColumnField(defaultColumns, fields);
 
-    const tripColumns = geoJsonColumns.filter(col =>
+    const tripColumns = (geoJsonColumns || []).filter(col =>
       isTripGeoJsonField(allData, fields[col.geojson.fieldIdx])
     );
 
