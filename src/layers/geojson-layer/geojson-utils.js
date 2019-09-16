@@ -166,15 +166,16 @@ export const featureToDeckGlGeoType = {
 
 /**
  * Parse geojson from string
- * @param {array} geoJson object values
+ * @param {Array<Object>} allFeatures
  * @returns {Object} mapping of feature type existence
  */
 export function getGeojsonFeatureTypes(allFeatures) {
   const featureTypes = {};
   for (let f = 0; f < allFeatures.length; f++) {
+    const feature = allFeatures[f];
     const geoType =
       featureToDeckGlGeoType[
-        allFeatures[f].geometry && allFeatures[f].geometry.type
+        feature && feature.geometry && feature.geometry.type
       ];
     if (geoType) {
       featureTypes[geoType] = true;

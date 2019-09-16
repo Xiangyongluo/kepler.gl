@@ -335,15 +335,15 @@ export default class GeoJsonLayer extends Layer {
     const allFeatures = this.dataToFeature;
 
     // get bounds from features
-    const bounds = getGeojsonBounds(allFeatures);
+    const bounds = getGeojsonBounds(this.dataToFeature);
 
     // if any of the feature has properties.radius set to be true
     const fixedRadius = Boolean(
-      allFeatures.find(d => d && d.properties && d.properties.radius)
+      this.dataToFeature.find(d => d && d.properties && d.properties.radius)
     );
 
     // keep a record of what type of geometry the collection has
-    const featureTypes = getGeojsonFeatureTypes(allFeatures);
+    const featureTypes = getGeojsonFeatureTypes(this.dataToFeature);
 
     this.updateMeta({bounds, fixedRadius, featureTypes});
   }
