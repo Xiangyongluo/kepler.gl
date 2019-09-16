@@ -23,10 +23,7 @@ export const tripDataInfo = {
   label: 'Trip Data'
 };
 
-export const timeStampDomain = [1565577261000, 1565578836000];
-export const tripBounds = [-74.33242, 40.60428, -73.78707, 40.88362];
-
-export default {
+const tripGeoJson = {
   type: 'FeatureCollection',
   features: [
     {
@@ -202,3 +199,131 @@ export default {
     }
   ]
 };
+
+const fts = tripGeoJson.features;
+export const dataToFeature = [
+  {type: 'Feature', properties: {...fts[0].properties, index: 0}, geometry: fts[0].geometry},
+  {type: 'Feature', properties: {...fts[1].properties, index: 1}, geometry: fts[1].geometry},
+  {type: 'Feature', properties: {...fts[2].properties, index: 2}, geometry: fts[2].geometry},
+  {type: 'Feature', properties: {...fts[3].properties, index: 3}, geometry: fts[3].geometry},
+  {type: 'Feature', properties: {...fts[4].properties, index: 4}, geometry: fts[4].geometry},
+  {type: 'Feature', properties: {...fts[5].properties, index: 5}, geometry: fts[5].geometry},
+  {type: 'Feature', properties: {...fts[6].properties, index: 6}, geometry: fts[6].geometry},
+  {type: 'Feature', properties: {...fts[7].properties, index: 7}, geometry: fts[7].geometry},
+  {type: 'Feature', properties: {...fts[8].properties, index: 8}, geometry: fts[8].geometry}
+];
+
+export const dataToTimeStamp = [
+  [
+    1565578338000,
+    1565578346000,
+    1565578356000,
+    1565578364000,
+    1565578365000,
+    1565578367000,
+    1565578368000,
+    1565578371000,
+    1565578373000,
+    1565578375000
+  ],
+  [
+    1565578213000,
+    1565578217000,
+    1565578243000,
+    1565578256000,
+    1565578278000,
+    1565578288000,
+    1565578382000,
+    1565578417000,
+    1565578504000
+  ],
+  [
+    1565578095000,
+    1565578123000,
+    1565578125000,
+    1565578156000,
+    1565578181000,
+    1565578214000,
+    1565578237000,
+    1565578250000
+  ],
+  [
+    1565577961000,
+    1565577967000,
+    1565577973000,
+    1565577976000,
+    1565577991000,
+    1565578000000,
+    1565578008000,
+    1565578014000,
+    1565578018000
+  ],
+  [
+    1565578666000,
+    1565578694000,
+    1565578712000,
+    1565578732000,
+    1565578756000,
+    1565578778000,
+    1565578836000
+  ],
+  [
+    1565578252000,
+    1565578322000,
+    1565578354000,
+    1565578376000,
+    1565578399000,
+    1565578465000,
+    1565578511000,
+    1565578513000,
+    1565578524000,
+    1565578528000,
+    1565578531000
+  ],
+  [
+    1565577697000,
+    1565577720000,
+    1565577726000,
+    1565577732000,
+    1565577737000,
+    1565577743000,
+    1565577747000,
+    1565577749000,
+    1565577751000,
+    1565577753000
+  ],
+  [
+    1565577773000,
+    1565577786000,
+    1565577814000,
+    1565577872000,
+    1565577904000,
+    1565577907000,
+    1565577938000,
+    1565577957000,
+    1565577974000,
+    1565577993000,
+    1565577999000,
+    1565578017000,
+    1565578020000
+  ],
+  [
+    1565577261000,
+    1565577277000,
+    1565577315000,
+    1565577685000,
+    1565577728000,
+    1565577750000,
+    1565577771000,
+    1565577796000,
+    1565577799000,
+    1565577802000,
+    1565577805000,
+    1565577807000,
+    1565577809000
+  ]
+];
+export const timeStampDomain = [1565577261000, 1565578836000];
+export const tripBounds = [-74.33242, 40.60428, -73.78707, 40.88362];
+
+export default tripGeoJson;

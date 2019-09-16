@@ -168,7 +168,7 @@ test('#visStateSchema -> v1 -> save load layerBlending', t => {
   t.end();
 });
 
-test('#visStateSchema -> v1 -> save animation', t => {
+test.only('#visStateSchema -> v1 -> save animation', t => {
   const initialState = cloneDeep(StateWTripGeojson);
 
   // save state
@@ -177,7 +177,7 @@ test('#visStateSchema -> v1 -> save animation', t => {
   t.deepEqual(Object.keys(vsToSave),
     ['filters', 'layers', 'interactionConfig', 'layerBlending', 'splitMaps', 'animationConfig'],
     'visState should have all 5 entries');
-  console.log(JSON.stringify(SchemaManager.getConfigToSave(initialState), null, 2))
+  console.log(JSON.stringify(SchemaManager.save(initialState), null, 2))
   const expectedSavedLayers = [expectedSavedTripLayer];
   const expectedAnimationConfig = {currentTime: 1565577261000};
   cmpSavedLayers(t, expectedSavedLayers, vsToSave.layers);
