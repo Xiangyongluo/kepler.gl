@@ -177,7 +177,7 @@ test('#visStateSchema -> v1 -> save animation', t => {
   t.deepEqual(Object.keys(vsToSave),
     ['filters', 'layers', 'interactionConfig', 'layerBlending', 'splitMaps', 'animationConfig'],
     'visState should have all 5 entries');
-
+  console.log(JSON.stringify(SchemaManager.getConfigToSave(initialState), null, 2))
   const expectedSavedLayers = [expectedSavedTripLayer];
   const expectedAnimationConfig = {currentTime: 1565577261000};
   cmpSavedLayers(t, expectedSavedLayers, vsToSave.layers);
