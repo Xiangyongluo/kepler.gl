@@ -331,9 +331,6 @@ export default class GeoJsonLayer extends Layer {
     const getFeature = this.getPositionAccessor();
     this.dataToFeature = getGeojsonDataMaps(allData, getFeature);
 
-    // calculate layer meta
-    const allFeatures = this.dataToFeature;
-
     // get bounds from features
     const bounds = getGeojsonBounds(this.dataToFeature);
 
