@@ -294,6 +294,25 @@ export function mergeLayerBlending(state, layerBlending) {
 }
 
 /**
+ * Merge animation config
+ * @param {Object} state
+ * @param {Object} animation
+ */
+export function mergeAnimationConfig(state, animation) {
+  if (animation && animation.currentTime) {
+    return {
+      ...state,
+      animationConfig: {
+        domain: null,
+        currentTime: animation.currentTime
+      }
+    }
+  }
+
+  return state;
+}
+
+/**
  * Validate saved layer columns with new data,
  * update fieldIdx based on new fields
  *

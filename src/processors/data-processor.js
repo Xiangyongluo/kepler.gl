@@ -457,7 +457,7 @@ export function processGeojson(rawData) {
       }
     });
   });
-  const processRow =  processRowObject(allData);
+  const processRow = processRowObject(allData);
   return processRow;
 }
 
@@ -473,11 +473,7 @@ export function formatCsv(data, fields) {
 
   // parse geojson object as string
   data.forEach(row => {
-    formattedData.push(
-      row.map((d, i) =>
-        parseFieldValue(d, fields[i].type)
-      )
-    );
+    formattedData.push(row.map((d, i) => parseFieldValue(d, fields[i].type)));
   });
 
   return csvFormatRows(formattedData);
@@ -523,7 +519,9 @@ export function validateInputData(data) {
     }
 
     if (!f.name) {
-      assert(`field.name is required but missing in field ${JSON.stringify(f)}`);
+      assert(
+        `field.name is required but missing in field ${JSON.stringify(f)}`
+      );
       // assign a name
       f.name = `column_${i}`;
     }

@@ -51,7 +51,8 @@ import {
   mergeLayers,
   mergeInteractions,
   mergeLayerBlending,
-  mergeSplitMaps
+  mergeSplitMaps,
+  mergeAnimationConfig
 } from './vis-state-merger';
 
 import {
@@ -983,7 +984,8 @@ export const receiveMapConfigUpdater = (
     layers,
     interactionConfig,
     layerBlending,
-    splitMaps
+    splitMaps,
+    animationConfig
   } = config.visState;
 
   const {keepExistingConfig} = options;
@@ -995,6 +997,7 @@ export const receiveMapConfigUpdater = (
   mergedState = mergeInteractions(mergedState, interactionConfig);
   mergedState = mergeLayerBlending(mergedState, layerBlending);
   mergedState = mergeSplitMaps(mergedState, splitMaps);
+  mergedState = mergeAnimationConfig(mergedState, animationConfig);
 
   return mergedState;
 };
@@ -1192,15 +1195,11 @@ export const updateVisDataUpdater = (state, action) => {
     newLayers = result.newLayers;
   }
 
-  // enable layer animation
-  newLayers.forEach(l => {
-    if (l.config.animation.enabled) {
-      mergedState = updateAnimationDomain(mergedState);
-    }
-  });
-
   if (mergedState.splitMaps.length) {
     // if map is split, add new layers to splitMaps
+    newLayers = mergedState.layers.filter(
+      l => l.config.dataId in newDateEntries
+    );
     mergedState = {
       ...mergedState,
       splitMaps: addNewLayersToSplitMap(mergedState.splitMaps, newLayers)
@@ -1219,11 +1218,14 @@ export const updateVisDataUpdater = (state, action) => {
     }
   });
 
-  const updatedState = updateAllLayerDomainData(
+  let updatedState = updateAllLayerDomainData(
     mergedState,
     Object.keys(newDateEntries)
   );
 
+  // register layer animation domain,
+  // need to be called after layer data is calculated
+  updatedState = updateAnimationDomain(updatedState);
   return updatedState;
 };
 /* eslint-enable max-statements */
