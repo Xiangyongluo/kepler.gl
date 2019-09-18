@@ -54,7 +54,7 @@ export default class ColorRangeSelect extends Component {
     customPalette: PropTypes.object,
     setCustomPalette: PropTypes.func,
     showSketcher: PropTypes.bool,
-    onToggleSketcherUpdater: PropTypes.func
+    onToggleSketcher: PropTypes.func
   };
 
   static defaultProps = {
@@ -130,7 +130,7 @@ export default class ColorRangeSelect extends Component {
       customPalette,
       setCustomPalette,
       showSketcher,
-      onToggleSketcherUpdater
+      onToggleSketcher
     } = this.props;
 
     return (
@@ -151,7 +151,7 @@ export default class ColorRangeSelect extends Component {
             customPalette={customPalette}
             setCustomPalette={setCustomPalette}
             showSketcher={showSketcher}
-            onToggleSketcherUpdater={onToggleSketcherUpdater}
+            onToggleSketcher={onToggleSketcher}
             onSelect={this.props.onSelectColorRange}
             selected={this.props.selectedColorRange}
             onApply={this.props.onSelectColorRange}

@@ -772,7 +772,7 @@ export default function LayerConfiguratorFactory(SourceDataSelector) {
         customPalette: this.props.customPalette,
         setCustomPalette: this.props.setCustomPalette,
         showSketcher: this.props.showSketcher,
-        onToggleSketcherUpdater: this.props.onToggleSketcherUpdater
+        onToggleSketcher: this.props.onToggleSketcher
       };
 
       const layerConfiguratorProps = {
@@ -781,7 +781,7 @@ export default function LayerConfiguratorFactory(SourceDataSelector) {
         customPalette: this.props.customPalette,
         setCustomPalette: this.props.setCustomPalette,
         showSketcher: this.props.showSketcher,
-        onToggleSketcherUpdater: this.props.onToggleSketcherUpdater
+        onToggleSketcher: this.props.onToggleSketcher
       };
 
       const layerChannelConfigProps = {
@@ -910,7 +910,7 @@ export const ColorRangeConfig = ({
   customPalette,
   setCustomPalette,
   showSketcher,
-  onToggleSketcherUpdater
+  onToggleSketcher
 }) => (
   <SidePanelSection>
     <ColorSelector
@@ -924,7 +924,7 @@ export const ColorRangeConfig = ({
       customPalette={customPalette}
       setCustomPalette={setCustomPalette}
       showSketcher={showSketcher}
-      onToggleSketcherUpdater={onToggleSketcherUpdater}
+      onToggleSketcher={onToggleSketcher}
     />
   </SidePanelSection>
 );

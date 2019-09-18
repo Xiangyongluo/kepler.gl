@@ -57,7 +57,7 @@ function LayerPanelFactory(LayerConfigurator) {
       customPalette: PropTypes.object.isRequired,
       setCustomPalette: PropTypes.func.isRequired,
       showSketcher: PropTypes.bool.isRequired,
-      onToggleSketcherUpdater: PropTypes.func.isRequired
+      onToggleSketcher: PropTypes.func.isRequired
     };
 
     updateLayerConfig = newProp => {
@@ -107,7 +107,7 @@ function LayerPanelFactory(LayerConfigurator) {
     };
 
     render() {
-      const {layer, idx, datasets, layerTypeOptions, customPalette, setCustomPalette, showSketcher, onToggleSketcherUpdater} = this.props;
+      const {layer, idx, datasets, layerTypeOptions, customPalette, setCustomPalette, showSketcher, onToggleSketcher} = this.props;
       const {config} = layer;
       const {isConfigActive} = config;
 
@@ -146,7 +146,7 @@ function LayerPanelFactory(LayerConfigurator) {
               customPalette={customPalette}
               setCustomPalette={setCustomPalette}
               showSketcher={showSketcher}
-              onToggleSketcherUpdater={onToggleSketcherUpdater}
+              onToggleSketcher={onToggleSketcher}
             />
           )}
         </PanelWrapper>

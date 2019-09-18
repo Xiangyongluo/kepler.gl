@@ -117,7 +117,7 @@ class ColorSelector extends Component {
       customPalette,
       setCustomPalette,
       showSketcher,
-      onToggleSketcherUpdater
+      onToggleSketcher
     } = this.props;
     const {editing} = this.state;
     const currentEditing =
@@ -161,7 +161,7 @@ class ColorSelector extends Component {
                 customPalette={customPalette}
                 setCustomPalette={setCustomPalette}
                 showSketcher={showSketcher}
-                onToggleSketcherUpdater={onToggleSketcherUpdater}
+                onToggleSketcher={onToggleSketcher}
               />
             ) : (
               <SingleColorPalette

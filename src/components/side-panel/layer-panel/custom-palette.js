@@ -169,7 +169,7 @@ class CustomPalette extends Component {
     }),
     setCustomPalette: PropTypes.func,
     showSketcher: PropTypes.bool,
-    onToggleSketcherUpdater: PropTypes.func
+    onToggleSketcher: PropTypes.func
   };
 
   constructor(props) {
@@ -214,11 +214,11 @@ class CustomPalette extends Component {
     this.setState({
       currentSwatchIndex: index
     });
-    this.props.onToggleSketcherUpdater();
+    this.props.onToggleSketcher();
   };
 
   _onSwatchClose = index => {
-    this.props.onToggleSketcherUpdater();
+    this.props.onToggleSketcher();
   };
 
   _onApply = event => {
