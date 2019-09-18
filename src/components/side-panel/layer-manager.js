@@ -23,7 +23,7 @@ import PropTypes from 'prop-types';
 import {sortableContainer, sortableElement} from 'react-sortable-hoc';
 import styled from 'styled-components';
 import {createSelector} from 'reselect';
-import arrayMove from 'array-move';
+import arrayMove from 'utils/data-utils';
 
 import LayerPanelFactory from './layer-panel/layer-panel';
 import SourceDataCatalogFactory from './common/source-data-catalog';
@@ -140,11 +140,12 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
 
   return class LayerManager extends Component {
     static propTypes = {
-      addLayer: PropTypes.func.isRequired,
       datasets: PropTypes.object.isRequired,
       layerBlending: PropTypes.string.isRequired,
       layerClasses: PropTypes.object.isRequired,
       layers: PropTypes.arrayOf(PropTypes.any).isRequired,
+      // functions
+      addLayer: PropTypes.func.isRequired,
       layerConfigChange: PropTypes.func.isRequired,
       layerTextLabelChange: PropTypes.func.isRequired,
       layerVisualChannelConfigChange: PropTypes.func.isRequired,
@@ -156,8 +157,8 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
       showDatasetTable: PropTypes.func.isRequired,
       updateLayerBlending: PropTypes.func.isRequired,
       updateLayerOrder: PropTypes.func.isRequired,
-      uiState: PropTypes.object.isRequired,
-      uiStateActions: PropTypes.object.isRequired
+      setCustomPalette: PropTypes.func.isRequired,
+      onToggleSketcher: PropTypes.func.isRequired
     };
 
     layerClassSelector = props => props.layerClasses;
@@ -181,7 +182,7 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
     };
 
     render() {
-      const {layers, datasets, layerOrder, openModal, uiState, uiStateActions} = this.props;
+      const {layers, datasets, layerOrder, openModal} = this.props;
       const defaultDataset = Object.keys(datasets)[0];
       const layerTypeOptions = this.layerTypeOptionsSelector(this.props);
 
@@ -229,11 +230,10 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
                     key={`layer-${layerIdx}`}
                     index={index}
                     layer={layer}
-                    customPalette={uiState.customPalette}
-                    setCustomPalette={uiStateActions.setCustomPalette}
-                    showSketcher={uiState.showSketcher}
-                    onToggleSketcher={uiStateActions.onToggleSketcher}
-
+                    customPalette={this.props.customPalette}
+                    setCustomPalette={this.props.setCustomPalette}
+                    showSketcher={this.props.showSketcher}
+                    onToggleSketcher={this.props.onToggleSketcher}
                   />
                 );
               })}

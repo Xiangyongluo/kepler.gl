@@ -21,31 +21,17 @@
 import React, {Component} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
-import {Button} from 'components/common/styled-components';
-import {VertDots, Trash} from 'components/common/icons';
 import {
   sortableContainer,
   sortableElement,
   sortableHandle
 } from 'react-sortable-hoc';
-import arrayMove from 'array-move';
 import Modal from 'react-modal';
+import {Button, InlineInput} from 'components/common/styled-components';
+import {VertDots, Trash} from 'components/common/icons';
 import ColorPalette from './color-palette';
 import CustomPicker from './custom-picker';
-
-const StyledWrapper = styled.div`
-  color: #a0a7b4;
-`;
-
-const StyledHex = styled.div`
-  color: #f0f0f0;
-  font-size: 10px;
-  padding-left: 10px;
-  font-family: ff-clan-web-pro, 'Helvetica Neue', Helvetica, sans-serif;
-  :hover {
-    cursor: default;
-  }
-`;
+import arrayMove from 'utils/data-utils';
 
 const StyledSortableItem = styled.div`
   display: flex;
@@ -72,7 +58,8 @@ const StyledDragHandle = styled.div`
   align-items: center;
   opacity: 0;
   z-index: 1000;
-  color: #fff
+  color: ${props => props.theme.subtextColorActive};
+
   :hover {
     cursor: move;
     opacity: 1;
@@ -81,10 +68,10 @@ const StyledDragHandle = styled.div`
 `;
 
 const StyledTrash = styled.div`
-  .trashbin {
-    color: #a0a7b4;
+  color: ${props => props.theme.textColor};
+  svg {
     :hover {
-      color: #fff;
+      color: ${props => props.theme.subtextColorActive};
     }
   }
   height: 12px;
@@ -96,9 +83,9 @@ const StyledTrash = styled.div`
 `;
 
 const StyledLine = styled.div`
-  width: 220px;
+  width: calc(100% - 16px);
   height: 1px;
-  background-color: #6a7485;
+  background-color: ${props => props.theme.labelColor};
   margin-top: 8px;
   margin-left: 8px;
 `;
@@ -125,12 +112,11 @@ const StyledButtonContainer = styled.div`
   direction: rtl;
 `;
 
-const StyledButton = styled(Button)`
-  background-color: transparent;
-  color: #A0A7B4
-  :hover {
-    background-color: transparent;
-    color: #fff;
+const StyledInlineInput = styled.div`
+  margin-left: 12px;
+  input {
+    color: ${props => props.theme.textColorHl};
+    font-size: 10px;
   }
 `;
 
@@ -156,8 +142,6 @@ const SortableContainer = sortableContainer(({children}) => (
 const DragHandle = sortableHandle(({className, children}) => (
   <StyledDragHandle className={className}>{children}</StyledDragHandle>
 ));
-
-const DEFAULT_NEW_COLOR = '#F0F0F0';
 
 class CustomPalette extends Component {
   static propTypes = {
@@ -187,6 +171,7 @@ class CustomPalette extends Component {
       colors
     });
   }
+
   _onColorUpdate = color => {
     const {colors} = this.props.customPalette;
     const newColors = [...colors];
@@ -205,8 +190,8 @@ class CustomPalette extends Component {
 
   _onColorAdd = () => {
     const {colors} = this.props.customPalette;
-    const newColors = [...colors];
-    newColors.push(DEFAULT_NEW_COLOR);
+    // add the last color
+    const newColors = [...colors, colors[colors.length - 1]];
     this._setCustomPalette(newColors);
   };
 
@@ -223,18 +208,18 @@ class CustomPalette extends Component {
 
   _onApply = event => {
     const {colors} = this.props.customPalette;
-    const newColors = [...colors];
     event.stopPropagation();
     event.preventDefault();
     this.props.onApply(
       {
         name: 'Custom Palette',
         type: null,
-        category: 'Uber',
-        colors: newColors
+        category: 'custom',
+        colors: [...colors]
       },
       event
     );
+    this.props.onCancel();
   };
 
   _onSortEnd = ({oldIndex, newIndex}) => {
@@ -243,10 +228,17 @@ class CustomPalette extends Component {
     this._setCustomPalette(newColors);
   };
 
+  _inputColorHex = (index, {target: {value}}) => {
+    const {colors} = this.props.customPalette;
+    const newColors = [...colors];
+    newColors[index] = value.toUpperCase();
+    this._setCustomPalette(newColors);
+  }
+
   render() {
     const {colors} = this.props.customPalette;
     return (
-      <StyledWrapper>
+      <div className="custom-palette-panel">
         <StyledColorRange>
           <ColorPalette colors={colors} />
         </StyledColorRange>
@@ -285,25 +277,32 @@ class CustomPalette extends Component {
                   </Modal>
                 </div>
               ) : null}
-
-              <StyledHex>{color.toUpperCase()}</StyledHex>
-
+              <StyledInlineInput>
+                <InlineInput
+                  type="text"
+                  className="layer__title__editor"
+                  value={color.toUpperCase()}
+                  onClick={e => {
+                    e.stopPropagation();
+                  }}
+                  onChange={e => this._inputColorHex(index, e)}
+                  id="input-layer-label"/>
+              </StyledInlineInput>
               <StyledTrash onClick={() => this._onColorDelete(index)}>
                 <Trash className="trashbin" />
               </StyledTrash>
             </SortableItem>
           ))}
         </SortableContainer>
-
-        <StyledButton onClick={this._onColorAdd}>+ Add Step</StyledButton>
-
+        {/* Add Step Button */}
+        <Button link onClick={this._onColorAdd}>+ Add Step</Button>
         <StyledLine />
-
+        {/* Cancel or Confirm Buttons */}
         <StyledButtonContainer>
-          <StyledButton onClick={this._onApply}>Confirm</StyledButton>
-          <StyledButton onClick={this.props.onCancel}> Cancel</StyledButton>
+          <Button link onClick={this._onApply}>Confirm</Button>
+          <Button link onClick={this.props.onCancel}> Cancel</Button>
         </StyledButtonContainer>
-      </StyledWrapper>
+      </div>
     );
   }
 }

@@ -25,13 +25,23 @@
  * @returns {array} array of r g bs
  */
 export function hexToRgb(hex) {
-  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+  const result = isHexColor(hex);
+
+  if (!result) {
+    return [0, 0, 0];
+  }
 
   const r = parseInt(result[1], 16);
   const g = parseInt(result[2], 16);
   const b = parseInt(result[3], 16);
 
   return [r, g, b];
+}
+
+export function isHexColor(hex) {
+  const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+
+  return result;
 }
 
 function PadNum(c) {

@@ -268,7 +268,7 @@ export const setCustomPalette = createAction(
  * @memberOf uiStateActions
  * @public
  */
-export const onToggleSketcherUpdater = createAction(
+export const onToggleSketcher = createAction(
   ActionTypes.TOGGLE_SKETCHER
 );
 
@@ -276,7 +276,7 @@ export const onToggleSketcherUpdater = createAction(
  * This declaration is needed to group actions in docs
  */
 /**
- * Actions handled mostly by  `uiState` reducer.
+ * Actions handled mostly by  `uiState` reducer.la
  * They manage UI changes in tha app, such as open and close side panel,
  * switch between tabs in the side panel, open and close modal dialog for exporting data / images etc.
  * It also manges which settings are selected during image and map export

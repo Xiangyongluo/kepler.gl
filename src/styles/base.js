@@ -45,7 +45,7 @@ export const subtextColorLT = '#A0A7B4';
 export const subtextColorActive = '#FFFFFF';
 
 export const titleTextColor = '#FFFFFF';
-export const textColorHl = '#D3D8E0';
+export const textColorHl = '#F0F0F0';
 export const textColorHlLT = '#F1F1F1';
 export const activeColor = '#1FBAD6';
 export const activeColorHover = '#108188';
