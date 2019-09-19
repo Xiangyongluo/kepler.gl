@@ -172,12 +172,10 @@ export const DEFAULT_EXPORT_MAP = {
 
 export const DEFAULT_CUSTOM_PALETTE = {
   name: 'Custom Palette',
-  type: null,
-  category: 'Uber',
-  colors: ['#F0F0F0', '#CCCCCC', '#B3B3B3', '#999999', '#666666']
+  type: 'custom',
+  category: 'Custom',
+  colors: []
 }
-
-export const DEFAULT_SHOW_SKETCHER = false;
 
 /**
  * Default initial `uiState`
@@ -213,9 +211,21 @@ export const INITIAL_UI_STATE = {
   // ui notifications
   notifications: DEFAULT_NOTIFICATIONS,
   // Custom palette
-  customPalette: DEFAULT_CUSTOM_PALETTE,
-  // sketcher modal
-  showSketcher: DEFAULT_SHOW_SKETCHER
+  colorPalette: {
+    // customPalette in edit
+    customPalette: DEFAULT_CUSTOM_PALETTE,
+    // show color sketcher modal
+    showSketcher: false,
+    // show color range selection panel
+    showColorRangePanel: false,
+    //
+    colorRangeConfig: {
+      type: 'all',
+      steps: 6,
+      reversed: false,
+      custom: false
+    }
+  }
 };
 
 /* Updaters */
@@ -582,12 +592,15 @@ export const removeNotificationUpdater = (state, {payload: id}) => ({
   notifications: state.notifications.filter(n => n.id !== id)
 });
 
-export const setCustomPaletteUpdater = (state, { payload: customPalette }) => ({
+export const setColorPaletteUIUpdater = (state, {payload: newConfig}) => ({
   ...state,
-  customPalette
+  colorPalette: {
+    ...state.colorPalette,
+    ...newConfig
+  }
 });
 
-export const onToggleSketcherUpdater = (state) => ({
-  ...state,
-  showSketcher: !state.showSketcher
-});
+// export const onToggleSketcherUpdater = (state) => ({
+//   ...state,
+//   showSketcher: !state.showSketcher
+// });

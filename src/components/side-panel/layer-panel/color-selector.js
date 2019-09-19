@@ -18,7 +18,7 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
+import React, {Component, createRef} from 'react';
 import PropTypes from 'prop-types';
 import styled from 'styled-components';
 import {rgbToHex} from 'utils/color-utils';
@@ -77,9 +77,8 @@ class ColorSelector extends Component {
     ),
     inputTheme: PropTypes.string,
     disabled: PropTypes.bool,
-    customPalette: PropTypes.object,
-    setCustomPalette: PropTypes.func,
-    showSketcher: PropTypes.bool
+    colorPalette: PropTypes.object,
+    setColorPaletteUI: PropTypes.func
   };
 
   static defaultProps = {
@@ -90,10 +89,10 @@ class ColorSelector extends Component {
     editing: false
   };
 
+  node = createRef();
+
   handleClickOutside = e => {
-    if (this.state.editing !== false && !this.props.showSketcher) {
-      this.setState({editing: false});
-    }
+    this.setState({editing: false});
   };
 
   _onSelectColor = (color, e) => {
@@ -114,17 +113,15 @@ class ColorSelector extends Component {
       colorSets,
       disabled,
       inputTheme,
-      customPalette,
-      setCustomPalette,
-      showSketcher,
-      onToggleSketcher
+      colorPalette,
+      setColorPaletteUI
     } = this.props;
     const {editing} = this.state;
     const currentEditing =
       colorSets[editing] && typeof colorSets[editing] === 'object';
 
     return (
-      <div className="color-selector">
+      <div className="color-selector" ref={this.node}>
         <InputBoxContainer>
           {colorSets.map((cSet, i) => (
             <div className="color-select__input-group" key={i}>
@@ -158,10 +155,8 @@ class ColorSelector extends Component {
               <ColorRangeSelector
                 selectedColorRange={colorSets[editing].selectedColor}
                 onSelectColorRange={this._onSelectColor}
-                customPalette={customPalette}
-                setCustomPalette={setCustomPalette}
-                showSketcher={showSketcher}
-                onToggleSketcher={onToggleSketcher}
+                setColorPaletteUI={setColorPaletteUI}
+                colorPalette={colorPalette}
               />
             ) : (
               <SingleColorPalette

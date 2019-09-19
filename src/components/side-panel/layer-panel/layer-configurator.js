@@ -78,9 +78,8 @@ export default function LayerConfiguratorFactory(SourceDataSelector) {
       updateLayerType: PropTypes.func.isRequired,
       updateLayerVisConfig: PropTypes.func.isRequired,
       updateLayerVisualChannelConfig: PropTypes.func.isRequired,
-      customPalette: PropTypes.object.isRequired,
-      setCustomPalette: PropTypes.func.isRequired,
-      showSketcher: PropTypes.bool.isRequired
+      colorPalette: PropTypes.object.isRequired,
+      setColorPaletteUI: PropTypes.func.isRequired
     };
 
     _renderPointLayerConfig(props) {
@@ -769,19 +768,13 @@ export default function LayerConfiguratorFactory(SourceDataSelector) {
       const visConfiguratorProps = {
         ...commonConfigProp,
         onChange: this.props.updateLayerVisConfig,
-        customPalette: this.props.customPalette,
-        setCustomPalette: this.props.setCustomPalette,
-        showSketcher: this.props.showSketcher,
-        onToggleSketcher: this.props.onToggleSketcher
+        colorPalette: this.props.colorPalette,
+        setColorPaletteUI: this.props.setColorPaletteUI
       };
 
       const layerConfiguratorProps = {
         ...commonConfigProp,
-        onChange: updateLayerConfig,
-        customPalette: this.props.customPalette,
-        setCustomPalette: this.props.setCustomPalette,
-        showSketcher: this.props.showSketcher,
-        onToggleSketcher: this.props.onToggleSketcher
+        onChange: updateLayerConfig
       };
 
       const layerChannelConfigProps = {
@@ -907,10 +900,8 @@ export const ColorRangeConfig = ({
   layer,
   onChange,
   property = 'colorRange',
-  customPalette,
-  setCustomPalette,
-  showSketcher,
-  onToggleSketcher
+  colorPalette,
+  setColorPaletteUI
 }) => (
   <SidePanelSection>
     <ColorSelector
@@ -921,10 +912,8 @@ export const ColorRangeConfig = ({
           setColor: colorRange => onChange({[property]: colorRange})
         }
       ]}
-      customPalette={customPalette}
-      setCustomPalette={setCustomPalette}
-      showSketcher={showSketcher}
-      onToggleSketcher={onToggleSketcher}
+      colorPalette={colorPalette}
+      setColorPaletteUI={setColorPaletteUI}
     />
   </SidePanelSection>
 );

@@ -79,7 +79,7 @@ const DropdownWrapper = styled.div`
   border: 0;
   width: 100%;
   left: 0;
-  z-index: 100;
+  z-index: ${props => props.theme.dropdownWrapperZ};
   position: absolute;
   bottom: ${props =>
     props.placement === 'top' ? props.theme.inputBoxHeight : 'auto'};

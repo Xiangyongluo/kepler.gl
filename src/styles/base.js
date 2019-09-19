@@ -32,6 +32,10 @@ export const borderColor = '#3A414C';
 export const borderColorLight = '#F1F1F1';
 
 // TEXT
+export const fontFamily = `ff-clan-web-pro, 'Helvetica Neue', Helvetica, sans-serif`;
+export const fontWeight = 400;
+export const fontSize = '0.875em';
+export const lineHeight = 1.71429;
 export const labelColor = '#6A7485';
 export const labelHoverColor = '#C6C6C6';
 export const labelColorLT = '#6A7485';
@@ -124,7 +128,7 @@ export const dropdownListHighlightBg = '#6A7485';
 export const dropdownListShadow = '0 6px 12px 0 rgba(0,0,0,0.16)';
 export const dropdownListBgd = '#3A414C';
 export const dropdownListBorderTop = '#242730';
-
+export const dropdownWrapperZ = 100;
 // Switch
 export const switchWidth = 24;
 export const switchHeight = 12;
@@ -189,6 +193,13 @@ export const modalImagePlaceHolder = '#DDDFE3';
 export const modalPadding = '10px 0';
 export const modalLateralPadding = '72px';
 export const modalPortableLateralPadding = '36px';
+
+export const modalOverLayZ = 1000;
+export const modalOverlayBgd = 'rgba(0, 0, 0, 0.5)';
+export const modalContentZ = 10002;
+export const modalFooterZ = 10001;
+export const modalTitleZ = 10003;
+export const modalButtonZ = 10005;
 
 // Modal Dialog (Dark)
 export const modalDialogBgd = '#3A414C';
@@ -758,6 +769,7 @@ export const theme = {
   dropdownListHeader,
   dropdownListSection,
   dropdownListShadow,
+  dropdownWrapperZ,
   modalScrollBar,
   scrollBar,
   sidePanelScrollBar,
@@ -896,6 +908,12 @@ export const theme = {
 
   modalLateralPadding,
   modalPortableLateralPadding,
+  modalOverLayZ,
+  modalOverlayBgd,
+  modalContentZ,
+  modalFooterZ,
+  modalTitleZ,
+  modalButtonZ,
 
   // Side Panel
   sidePanelBg,
@@ -921,6 +939,10 @@ export const theme = {
   panelDropdownScrollBar,
 
   // Text
+  fontFamily,
+  fontWeight,
+  fontSize,
+  lineHeight,
   textColor,
   textColorLT,
   textColorHl,

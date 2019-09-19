@@ -68,10 +68,10 @@ const ColorPalette = ({colors, height, className, isSelected, isReversed}) => (
   >
     <PaletteWrapper className="color-range-palette__inner"
                     style={{height, transform: `scale(${isReversed ? -1 : 1}, 1)`}}>
-      {colors.map(color => (
+      {colors.map((color, index) => (
         <ColorBlock
           className="color-range-palette__block"
-          key={color}
+          key={`${color}-${index}`}
           style={{backgroundColor: color}}
         />
       ))}

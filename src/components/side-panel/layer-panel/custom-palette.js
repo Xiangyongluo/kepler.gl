@@ -18,38 +18,48 @@
 // OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 // THE SOFTWARE.
 
-import React, {Component} from 'react';
+import React, {Component, createRef} from 'react';
+import classnames from 'classnames';
 import PropTypes from 'prop-types';
-import styled from 'styled-components';
+import styled, {withTheme, css} from 'styled-components';
 import {
   sortableContainer,
   sortableElement,
   sortableHandle
 } from 'react-sortable-hoc';
 import Modal from 'react-modal';
+
 import {Button, InlineInput} from 'components/common/styled-components';
 import {VertDots, Trash} from 'components/common/icons';
 import ColorPalette from './color-palette';
 import CustomPicker from './custom-picker';
-import arrayMove from 'utils/data-utils';
+import {arrayMove} from 'utils/data-utils';
+
+const dragHandleActive = css`
+  .layer__drag-handle {
+    color: ${props => props.theme.textColorHl};
+    opacity: 1;
+    cursor: move;
+  }
+`;
 
 const StyledSortableItem = styled.div`
   display: flex;
   align-items: center;
   padding-top: 6px;
   padding-bottom: 6px;
-  z-index: 100;
-  :hover {
+  z-index: ${props => props.theme.dropdownWrapperZ + 1};
+
+  :not(.sorting) {
+    :hover {
+      background-color: ${props => props.theme.panelBackgroundHover};
+      ${dragHandleActive}
+    }
+  }
+
+  &.sorting-colors {
     background-color: ${props => props.theme.panelBackgroundHover};
-
-    .layer__drag-handle {
-      opacity: 1;
-      cursor: move;
-    }
-
-    .sortableColors {
-      color: #fff;
-    }
+    ${dragHandleActive}
   }
 `;
 
@@ -57,14 +67,6 @@ const StyledDragHandle = styled.div`
   display: flex;
   align-items: center;
   opacity: 0;
-  z-index: 1000;
-  color: ${props => props.theme.subtextColorActive};
-
-  :hover {
-    cursor: move;
-    opacity: 1;
-    color: ${props => props.theme.textColorHl};
-  }
 `;
 
 const StyledTrash = styled.div`
@@ -95,7 +97,10 @@ const StyledSwatch = styled.div`
   width: 32px;
   height: 18px;
   display: inline-block;
-  cursor: pointer;
+  :hover {
+    box-shadow: ${props => props.theme.boxShadow};
+    cursor: pointer;
+  }
 `;
 
 const StyledColorRange = styled.div`
@@ -120,19 +125,12 @@ const StyledInlineInput = styled.div`
   }
 `;
 
-const customStyles = {
-  content: {
-    top: '30%',
-    left: '340px',
-    right: 'auto',
-    bottom: 'auto',
-    padding: '0px 0px 0px 0px',
-    zIndex: 9999
-  }
-};
-
-const SortableItem = sortableElement(({children}) => (
-  <StyledSortableItem>{children}</StyledSortableItem>
+const SortableItem = sortableElement(({children, isSorting}) => (
+  <StyledSortableItem
+    className={classnames('sortable-items', {sorting: isSorting})}
+  >
+    {children}
+  </StyledSortableItem>
 ));
 
 const SortableContainer = sortableContainer(({children}) => (
@@ -153,21 +151,18 @@ class CustomPalette extends Component {
     }),
     setCustomPalette: PropTypes.func,
     showSketcher: PropTypes.bool,
-    onToggleSketcher: PropTypes.func
+    theme: PropTypes.object
   };
 
-  constructor(props) {
-    super(props);
-    this.state = {
-      currentSwatchIndex: null
-    };
-  }
+  state = {
+    currentSwatchIndex: null,
+    isSorting: false
+  };
 
-  _setCustomPalette(colors) {
+  root = createRef();
+
+  _setColorPaletteUI(colors) {
     this.props.setCustomPalette({
-      name: 'Custom Palette',
-      type: null,
-      category: 'Uber',
       colors
     });
   }
@@ -176,7 +171,7 @@ class CustomPalette extends Component {
     const {colors} = this.props.customPalette;
     const newColors = [...colors];
     newColors[this.state.currentSwatchIndex] = color.hex;
-    this._setCustomPalette(newColors);
+    this._setColorPaletteUI(newColors);
   };
 
   _onColorDelete = index => {
@@ -185,98 +180,99 @@ class CustomPalette extends Component {
     if (newColors.length > 1) {
       newColors.splice(index, 1);
     }
-    this._setCustomPalette(newColors);
+    this._setColorPaletteUI(newColors);
   };
 
   _onColorAdd = () => {
     const {colors} = this.props.customPalette;
     // add the last color
     const newColors = [...colors, colors[colors.length - 1]];
-    this._setCustomPalette(newColors);
+    this._setColorPaletteUI(newColors);
   };
 
-  _onSwatchClick = index => {
+  _onSwatchClick = (index, e) => {
     this.setState({
       currentSwatchIndex: index
     });
-    this.props.onToggleSketcher();
+    this.props.onToggleSketcher(true);
   };
 
   _onSwatchClose = index => {
-    this.props.onToggleSketcher();
+    this.props.onToggleSketcher(false);
   };
 
   _onApply = event => {
-    const {colors} = this.props.customPalette;
     event.stopPropagation();
     event.preventDefault();
-    this.props.onApply(
-      {
-        name: 'Custom Palette',
-        type: null,
-        category: 'custom',
-        colors: [...colors]
-      },
-      event
-    );
+    this.props.onApply(this.props.customPalette, event);
     this.props.onCancel();
   };
 
   _onSortEnd = ({oldIndex, newIndex}) => {
     const {colors} = this.props.customPalette;
     const newColors = arrayMove(colors, oldIndex, newIndex);
-    this._setCustomPalette(newColors);
+    this._setColorPaletteUI(newColors);
+    this.setState({isSorting: false});
+  };
+
+  _onSortStart = () => {
+    this.setState({isSorting: true});
   };
 
   _inputColorHex = (index, {target: {value}}) => {
     const {colors} = this.props.customPalette;
     const newColors = [...colors];
     newColors[index] = value.toUpperCase();
-    this._setCustomPalette(newColors);
-  }
+    this._setColorPaletteUI(newColors);
+  };
 
   render() {
-    const {colors} = this.props.customPalette;
+    const {colors, theme} = this.props.customPalette;
+    const modalStyles = {
+      content: {
+        top: '30%',
+        right: 'auto',
+        bottom: 'auto',
+        padding: '0px 0px 0px 0px'
+      },
+      overlay: {
+        backgroundColor: 'rgba(0, 0, 0, 0)',
+        left: `${
+          theme && theme.sidePanel
+            ? theme.sidePanel.width +
+              theme.sidePanel.margin.left +
+              theme.sidePanel.margin.right
+            : 340
+        }px`
+      }
+    };
+
     return (
-      <div className="custom-palette-panel">
+      <div className="custom-palette-panel" ref={this.root}>
         <StyledColorRange>
           <ColorPalette colors={colors} />
         </StyledColorRange>
-
         <SortableContainer
           className="custom-palette-container"
           onSortEnd={this._onSortEnd}
+          onSortStart={this._onSortStart}
           lockAxis="y"
-          useDragHandle={true}
-          helperClass="sortableColors"
+          helperClass="sorting-colors"
+          useDragHandle
         >
           {colors.map((color, index) => (
-            <SortableItem key={index} index={index}>
+            <SortableItem
+              key={index}
+              index={index}
+              isSorting={this.state.isSorting}
+            >
               <DragHandle className="layer__drag-handle">
                 <VertDots height="20px" />
               </DragHandle>
-
               <StyledSwatch
                 color={color}
-                onClick={() => this._onSwatchClick(index)}
+                onClick={e => this._onSwatchClick(index, e)}
               />
-
-              {this.props.showSketcher &&
-              this.state.currentSwatchIndex === index ? (
-                <div>
-                  <Modal
-                    isOpen={this.props.showSketcher}
-                    style={customStyles}
-                    ariaHideApp={false}
-                  >
-                    <CustomPicker
-                      color={color}
-                      onChange={this._onColorUpdate}
-                      onSwatchClose={this._onSwatchClose}
-                    />
-                  </Modal>
-                </div>
-              ) : null}
               <StyledInlineInput>
                 <InlineInput
                   type="text"
@@ -286,7 +282,8 @@ class CustomPalette extends Component {
                     e.stopPropagation();
                   }}
                   onChange={e => this._inputColorHex(index, e)}
-                  id="input-layer-label"/>
+                  id="input-layer-label"
+                />
               </StyledInlineInput>
               <StyledTrash onClick={() => this._onColorDelete(index)}>
                 <Trash className="trashbin" />
@@ -295,16 +292,41 @@ class CustomPalette extends Component {
           ))}
         </SortableContainer>
         {/* Add Step Button */}
-        <Button link onClick={this._onColorAdd}>+ Add Step</Button>
+        <Button link onClick={this._onColorAdd}>
+          + Add Step
+        </Button>
         <StyledLine />
         {/* Cancel or Confirm Buttons */}
         <StyledButtonContainer>
-          <Button link onClick={this._onApply}>Confirm</Button>
-          <Button link onClick={this.props.onCancel}> Cancel</Button>
+          <Button link onClick={this._onApply}>
+            Confirm
+          </Button>
+          <Button link onClick={this.props.onCancel}>
+            {' '}
+            Cancel
+          </Button>
         </StyledButtonContainer>
+        {this.props.showSketcher ? (
+          <Modal
+            isOpen={this.props.showSketcher}
+            style={modalStyles}
+            ariaHideApp={false}
+            parentSelector={() => {
+              // React modal issue: https://github.com/reactjs/react-modal/issues/769
+              // failed to execute removeChild on parent node when it is already unmounted
+              return this.root.current || {removeChild: () => {}}
+            }}
+          >
+            <CustomPicker
+              color={colors[this.state.currentSwatchIndex]}
+              onChange={this._onColorUpdate}
+              onSwatchClose={this._onSwatchClose}
+            />
+          </Modal>
+        ) : null}
       </div>
     );
   }
 }
 
-export default CustomPalette;
+export default withTheme(CustomPalette);

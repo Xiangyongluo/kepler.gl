@@ -157,12 +157,11 @@ export default function SidePanelFactory(
         layerVisConfigChange: visStateActions.layerVisConfigChange,
         updateLayerBlending: visStateActions.updateLayerBlending,
         updateLayerOrder: visStateActions.reorderLayer,
-        setCustomPalette: uiStateActions.setCustomPalette,
+        setColorPaletteUI: uiStateActions.setColorPaletteUI,
         showDatasetTable: this._showDatasetTable,
         showAddDataModal: this._showAddDataModal,
         removeLayer: visStateActions.removeLayer,
         removeDataset: this._removeDataset,
-        onToggleSketcher: uiStateActions.onToggleSketcher,
         openModal: uiStateActions.toggleModal
       };
 
@@ -226,8 +225,7 @@ export default function SidePanelFactory(
                     layerClasses={layerClasses}
                     layerOrder={layerOrder}
                     layerBlending={layerBlending}
-                    customPalette={uiState.customPalette}
-                    showSketcher={uiState.showSketcher}
+                    colorPalette={uiState.colorPalette}
                   />
                 )}
                 {activeSidePanel === 'filter' && (

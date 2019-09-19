@@ -53,6 +53,7 @@ const PICKER_STYLES = {
     background: theme.panelBackground
   }
 };
+const PRESET_COLORS = [];
 
 class CustomPicker extends Component {
   static propTypes = {
@@ -73,9 +74,9 @@ class CustomPicker extends Component {
         <SketchPicker
           color={color}
           onChange={onChange}
-          disableAlpha={true}
-          presetColors={[]}
+          presetColors={PRESET_COLORS}
           styles={PICKER_STYLES}
+          disableAlpha
         />
       </StyledPicker>
     );
