@@ -21,6 +21,7 @@
 import React, {Component, createRef} from 'react';
 import classnames from 'classnames';
 import PropTypes from 'prop-types';
+import {createSelector} from 'reselect';
 import styled, {withTheme, css} from 'styled-components';
 import {
   sortableContainer,
@@ -151,7 +152,16 @@ class CustomPalette extends Component {
     }),
     setCustomPalette: PropTypes.func,
     showSketcher: PropTypes.bool,
-    theme: PropTypes.object
+    theme: PropTypes.object,
+    defaultSketcherPos: PropTypes.object,
+    sketcherHeight: PropTypes.number,
+    bottomBuffer: PropTypes.number
+  };
+
+  static defaultProps = {
+    defaultSketcherPos: {top: '320px', left: '320px'},
+    sketcherHeight: 228,
+    bottomBuffer: 212
   };
 
   state = {
@@ -160,6 +170,32 @@ class CustomPalette extends Component {
   };
 
   root = createRef();
+
+  // derive sketcher position based on root component
+  showSketcherSelector = props => props.showSketcher;
+  themeSelector = props => props.theme;
+  sketcherPosSelector = createSelector(
+    this.showSketcherSelector,
+    (showSketcher, theme = {}) => {
+      const {defaultSketcherPos, bottomBuffer, sketcherHeight} = this.props;
+      if (!showSketcher || !this.root || !this.root.current)
+        return defaultSketcherPos;
+      const {sidePanelInnerPadding = 16, sidePanel = {}, sidePanelScrollBarWidth = 10} = theme;
+      const sidePanelLeft = (sidePanel.margin || {}).left || 20;
+      const offsetX = sidePanelInnerPadding + sidePanelLeft + sidePanelScrollBarWidth;
+      // find component Root position
+      const bounding = this.root.current.getBoundingClientRect();
+      const {x, y, width} = bounding;
+
+      // set the top so it won't collide with bottom widget
+      const top =
+        y + sketcherHeight <= window.innerHeight - bottomBuffer
+          ? y
+          : window.innerHeight - bottomBuffer - sketcherHeight;
+
+      return {top: `${top}px`, left: `${x + width + offsetX}px`};
+    }
+  );
 
   _setColorPaletteUI(colors) {
     this.props.setCustomPalette({
@@ -227,23 +263,24 @@ class CustomPalette extends Component {
   };
 
   render() {
-    const {colors, theme} = this.props.customPalette;
+    const {theme = {}} = this.props;
+    const {colors} = this.props.customPalette;
+    const sketcherPos = this.sketcherPosSelector(this.props);
     const modalStyles = {
       content: {
-        top: '30%',
+        top: 0,
+        left: 0,
+        border: 0,
         right: 'auto',
         bottom: 'auto',
-        padding: '0px 0px 0px 0px'
+        padding: '0px 0px 0px 0px',
+        borderRadius: theme.panelBorderRadius || 2
       },
       overlay: {
-        backgroundColor: 'rgba(0, 0, 0, 0)',
-        left: `${
-          theme && theme.sidePanel
-            ? theme.sidePanel.width +
-              theme.sidePanel.margin.left +
-              theme.sidePanel.margin.right
-            : 340
-        }px`
+        ...sketcherPos,
+        right: 'auto',
+        bottom: 'auto',
+        backgroundColor: 'rgba(0, 0, 0, 0)'
       }
     };
 

@@ -59,6 +59,13 @@ export function rgbToHex([r, g, b]) {
   return `#${[r, g, b].map(n => PadNum(n)).join('')}`.toUpperCase();
 }
 
+/**
+ * Get color group name by parsing name, discard step in the name
+ * e.g. Global Warming 6 -> Global Warming
+ *
+ * @param {Object} colorRange
+ * @return {string}
+ */
 export function getColorGroupByName(colorRange) {
   if (!colorRange || typeof colorRange.name !== 'string') {
     return null;
@@ -66,7 +73,15 @@ export function getColorGroupByName(colorRange) {
 
   return colorRange.name.replace(/\W+\d+$/, '');
 }
+
+/**
+ * Get a reversed colorRange
+ * @param {Object} colorRange
+ * @param {Object} colorRange
+ */
 export function reverseColorRange(colorRange) {
+  if (!colorRange) return null;
+  if (colorRange.reversed) return colorRange;
   return {
     ...colorRange,
     reversed: true,

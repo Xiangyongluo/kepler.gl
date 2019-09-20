@@ -159,7 +159,10 @@ export const checkboxBoxBgdChecked = primaryBtnBgd;
 
 // Side Panel
 export const sidePanelHeaderBg = '#29323C';
+export const sidePanelInnerPadding = 16;
 export const sidePanelBg = '#242730';
+export const sidePanelScrollBarWidth = 10;
+export const sidePanelScrollBarHeight = 10;
 export const sideBarCloseBtnBgd = secondaryBtnBgd;
 export const sideBarCloseBtnColor = '#29323C';
 export const sideBarCloseBtnBgdHover = secondaryBtnActBgd;
@@ -636,8 +639,8 @@ const dropdownList = css`
 
 const sidePanelScrollBar = css`
   ::-webkit-scrollbar {
-    height: 10px;
-    width: 10px;
+    height: ${props => props.theme.sidePanelScrollBarHeight}px;
+    width: ${props => props.theme.sidePanelScrollBarWidth}px;
   }
 
   ::-webkit-scrollbar-corner {
@@ -917,11 +920,13 @@ export const theme = {
 
   // Side Panel
   sidePanelBg,
-
+  sidePanelInnerPadding,
   sideBarCloseBtnBgd,
   sideBarCloseBtnColor,
   sideBarCloseBtnBgdHover,
   sidePanelHeaderBg,
+  sidePanelScrollBarWidth,
+  sidePanelScrollBarHeight,
 
   // Side Panel Panel
   panelActiveBg,

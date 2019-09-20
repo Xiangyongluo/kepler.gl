@@ -97,7 +97,10 @@ class ColorSelector extends Component {
   node = createRef();
 
   handleClickOutside = e => {
-    // this.setState({editing: false});
+    if (this.props.colorUI && this.props.colorUI.showSketcher) {
+      // if sketcher is open, let sketch to close itself first
+      return;
+    }
     this._closePanelDropdown();
   };
 
@@ -106,7 +109,6 @@ class ColorSelector extends Component {
   }
 
   _closePanelDropdown = () => {
-
     if (this._getEditing() === false) {
       return;
     }

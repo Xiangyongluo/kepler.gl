@@ -56,7 +56,11 @@ import {
   getLogDomain,
   getLinearDomain
 } from 'utils/data-scale-utils';
-import {hexToRgb, getColorGroupByName, reverseColorRange} from 'utils/color-utils';
+import {
+  hexToRgb,
+  getColorGroupByName,
+  reverseColorRange
+} from 'utils/color-utils';
 
 /**
  * Approx. number of points to sample in a large data set
@@ -564,45 +568,70 @@ export default class Layer {
     };
 
     this.updateLayerConfig({colorUI});
-
+    // if colorUI[prop] is colorRange
     const isColorRange = visConfig[prop] && visConfig[prop].colors;
-    const autoUpdateColorRange =
+
+    if (isColorRange) {
+      this.updateColorUIByColorRange(newConfig, prop);
+      this.updateColorRangeByColorUI(newConfig, previous, prop);
+    }
+
+    return this;
+  }
+
+  /**
+   * if open dropdown and prop is color range
+   * Automatically set colorRangeConfig
+   * @param {*} newConfig
+   * @param {*} prop
+   */
+  updateColorUIByColorRange(newConfig, prop) {
+    if (newConfig.showDropdown !== true) return;
+
+    const {colorUI, visConfig} = this.config;
+    this.updateLayerConfig({
+      colorUI: {
+        ...colorUI,
+        colorRangeConfig: {
+          ...colorUI.colorRangeConfig,
+          steps: visConfig[prop].colors.length,
+          reversed: Boolean(visConfig[prop].isReversed)
+        }
+      }
+    });
+  }
+
+  updateColorRangeByColorUI(newConfig, previous, prop) {
+    // only update colorRange if changes in UI is made to 'reversed', 'steps' or steps
+    const shouldUpdate =
       newConfig.colorRangeConfig &&
       ['reversed', 'steps'].some(
         key =>
           newConfig.colorRangeConfig[key] !==
           (previous[prop] || DEFAULT_COLOR_UI).colorRangeConfig[key]
       );
+    if (!shouldUpdate) return;
 
-    if (newConfig.showDropdown === true && isColorRange) {
-      // if open dropdown and prop is color range
-      // automatically set colorRangeConfig
-      colorUI.colorRangeConfig = {
-        ...colorUI.colorRangeConfig,
-        steps: visConfig[prop].colors.length,
-        reversed: Boolean(visConfig[prop].isReversed)
-      };
-    } else if (autoUpdateColorRange && isColorRange) {
-      const {steps, reversed} = colorUI[prop].colorRangeConfig;
-      const colorRange = visConfig[prop];
-      // find based on step or reversed
-      const group = getColorGroupByName(colorRange);
-      if (group) {
-        const matched = COLOR_RANGES.find(
-          cr => getColorGroupByName(cr) === group && cr.colors.length === steps
-        );
-        if (matched) {
-          const update = reversed ? reverseColorRange(matched) : matched;
-          console.log(prop);
-          console.log(update);
-          this.updateLayerVisConfig({[prop]: update});
-        }
-        // match step within the same group
+    const {colorUI, visConfig} = this.config;
+    const {steps, reversed} = colorUI[prop].colorRangeConfig;
+    const colorRange = visConfig[prop];
+    // find based on step or reversed
+    const group = getColorGroupByName(colorRange);
+    if (group) {
+      const sameGroup = COLOR_RANGES.filter(
+        cr => getColorGroupByName(cr) === group
+      );
+      const matched = (sameGroup.length ? sameGroup : COLOR_RANGES).find(
+        cr => cr.colors.length === steps
+      );
+
+      if (matched) {
+        const update = reversed ? reverseColorRange(matched) : matched;
+        this.updateLayerVisConfig({[prop]: update});
       }
     }
-
-    return this;
   }
+
   /**
    * Check whether layer has all columns
    *
