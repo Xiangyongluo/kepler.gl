@@ -58,3 +58,18 @@ function PadNum(c) {
 export function rgbToHex([r, g, b]) {
   return `#${[r, g, b].map(n => PadNum(n)).join('')}`.toUpperCase();
 }
+
+export function getColorGroupByName(colorRange) {
+  if (!colorRange || typeof colorRange.name !== 'string') {
+    return null;
+  }
+
+  return colorRange.name.replace(/\W+\d+$/, '');
+}
+export function reverseColorRange(colorRange) {
+  return {
+    ...colorRange,
+    reversed: true,
+    colors: colorRange.colors.slice().reverse()
+  };
+}

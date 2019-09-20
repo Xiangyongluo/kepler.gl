@@ -75,10 +75,15 @@ class ColorSelector extends Component {
         label: PropTypes.string
       })
     ),
+    colorUI: PropTypes.shape({
+      customPalette: PropTypes.object,
+      showSketcher: PropTypes.bool,
+      showDropdown: PropTypes.oneOfType([PropTypes.bool, PropTypes.numner]),
+      colorRangeConfig: PropTypes.object
+    }),
     inputTheme: PropTypes.string,
     disabled: PropTypes.bool,
-    colorPalette: PropTypes.object,
-    setColorPaletteUI: PropTypes.func
+    setColorUI: PropTypes.func
   };
 
   static defaultProps = {
@@ -86,26 +91,48 @@ class ColorSelector extends Component {
   };
 
   state = {
-    editing: false
+    showDropdown: false
   };
 
   node = createRef();
 
   handleClickOutside = e => {
-    this.setState({editing: false});
+    // this.setState({editing: false});
+    this._closePanelDropdown();
+  };
+
+  _getEditing = () => {
+    return this.props.colorUI ? this.props.colorUI.showDropdown : this.state.showDropdown;
+  }
+
+  _closePanelDropdown = () => {
+
+    if (this._getEditing() === false) {
+      return;
+    }
+    if (this.props.setColorUI) {
+      this.props.setColorUI({showDropdown: false, showSketcher: false});
+    } else {
+      this.setState({showDropdown: false});
+    }
   };
 
   _onSelectColor = (color, e) => {
     e.stopPropagation();
-    if (this.props.colorSets[this.state.editing]) {
-      this.props.colorSets[this.state.editing].setColor(color);
+    const editing = this._getEditing();
+    if (this.props.colorSets[editing]) {
+      this.props.colorSets[editing].setColor(color);
     }
   };
 
   _showDropdown = (e, i) => {
     e.stopPropagation();
     e.preventDefault();
-    this.setState({editing: i});
+    if (this.props.setColorUI) {
+      this.props.setColorUI({showDropdown: i});
+    } else {
+      this.setState({showDropdown: i});
+    }
   };
 
   render() {
@@ -113,10 +140,11 @@ class ColorSelector extends Component {
       colorSets,
       disabled,
       inputTheme,
-      colorPalette,
-      setColorPaletteUI
+      colorUI
     } = this.props;
-    const {editing} = this.state;
+
+    // const {editing} = this.state;
+    const editing = this._getEditing();
     const currentEditing =
       colorSets[editing] && typeof colorSets[editing] === 'object';
 
@@ -155,8 +183,8 @@ class ColorSelector extends Component {
               <ColorRangeSelector
                 selectedColorRange={colorSets[editing].selectedColor}
                 onSelectColorRange={this._onSelectColor}
-                setColorPaletteUI={setColorPaletteUI}
-                colorPalette={colorPalette}
+                setColorPaletteUI={this.props.setColorUI}
+                colorPaletteUI={colorUI}
               />
             ) : (
               <SingleColorPalette

@@ -32,6 +32,7 @@ import ColorPalette from './color-palette';
 import CustomPalette from './custom-palette';
 import {COLOR_RANGES} from 'constants/color-ranges';
 import {numberSort} from 'utils/data-utils';
+import {reverseColorRange} from 'utils/color-utils';
 
 const ALL_TYPES = uniq(
   COLOR_RANGES.map(c => c.type)
@@ -87,7 +88,7 @@ const CONFIG_SETTINGS = {
 
 export default class ColorRangeSelect extends Component {
   static propTypes = {
-    colorPalette: PropTypes.object.isRequired,
+    colorPaletteUI: PropTypes.object.isRequired,
     selectedColorRange: PropTypes.object.isRequired,
     onSelectColorRange: PropTypes.func.isRequired,
     setColorPaletteUI: PropTypes.func.isRequired,
@@ -102,8 +103,8 @@ export default class ColorRangeSelect extends Component {
   };
 
   colorRangesSelector = props => props.colorRanges;
-  configTypeSelector = props => props.colorPalette.colorRangeConfig.type;
-  configStepSelector = props => props.colorPalette.colorRangeConfig.steps;
+  configTypeSelector = props => props.colorPaletteUI.colorRangeConfig.type;
+  configStepSelector = props => props.colorPaletteUI.colorRangeConfig.steps;
   filteredColorRange = createSelector(
     this.colorRangesSelector,
     this.configTypeSelector,
@@ -129,7 +130,7 @@ export default class ColorRangeSelect extends Component {
   _onSetCustomPalette = config => {
     this.props.setColorPaletteUI({
       customPalette: {
-        ...this.props.colorPalette.customPalette,
+        ...this.props.colorPaletteUI.customPalette,
         ...config
       }
     });
@@ -138,7 +139,7 @@ export default class ColorRangeSelect extends Component {
   _setColorRangeConfig = newConfig => {
     this.props.setColorPaletteUI({
       colorRangeConfig: {
-        ...this.props.colorPalette.colorRangeConfig,
+        ...this.props.colorPaletteUI.colorRangeConfig,
         ...newConfig
       }
     });
@@ -157,7 +158,6 @@ export default class ColorRangeSelect extends Component {
   };
 
   _onToggleSketcher = val => {
-    console.log('_onToggleSketcher: ', val)
     this.props.setColorPaletteUI({
       showSketcher: val
     });
@@ -168,7 +168,7 @@ export default class ColorRangeSelect extends Component {
       customPalette,
       showSketcher,
       colorRangeConfig
-    } = this.props.colorPalette;
+    } = this.props.colorPaletteUI;
 
     const filteredColorRanges = this.filteredColorRange(this.props);
 
@@ -280,13 +280,7 @@ const ColorPaletteGroup = ({reversed, onSelect, selected, colorRanges}) => (
         key={`${colorRange.name}-${i}`}
         onClick={e =>
           onSelect(
-            {
-              ...colorRange,
-              reversed,
-              colors: reversed
-                ? colorRange.colors.slice().reverse()
-                : colorRange.colors
-            },
+            reversed ? reverseColorRange(colorRange) : colorRange,
             e
           )
         }

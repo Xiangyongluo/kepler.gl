@@ -70,6 +70,10 @@ function LayerPanelFactory(LayerConfigurator) {
       this.props.layerVisConfigChange(this.props.layer, newVisConfig);
     };
 
+    updateLayerColorUI = (...args) => {
+      this.props.layerColorUIChange(this.props.layer, ...args);
+    };
+
     updateLayerTextLabel = (...args) => {
       this.props.layerTextLabelChange(this.props.layer, ...args);
     };
@@ -136,6 +140,7 @@ function LayerPanelFactory(LayerConfigurator) {
               datasets={datasets}
               layerTypeOptions={layerTypeOptions}
               openModal={this.props.openModal}
+              updateLayerColorUI={this.updateLayerColorUI}
               updateLayerConfig={this.updateLayerConfig}
               updateLayerVisualChannelConfig={this.updateLayerVisualChannelConfig}
               updateLayerType={this.updateLayerType}

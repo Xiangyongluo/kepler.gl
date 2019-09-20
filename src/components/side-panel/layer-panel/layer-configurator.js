@@ -78,8 +78,7 @@ export default function LayerConfiguratorFactory(SourceDataSelector) {
       updateLayerType: PropTypes.func.isRequired,
       updateLayerVisConfig: PropTypes.func.isRequired,
       updateLayerVisualChannelConfig: PropTypes.func.isRequired,
-      colorPalette: PropTypes.object.isRequired,
-      setColorPaletteUI: PropTypes.func.isRequired
+      updateLayerColorUI: PropTypes.func.isRequired
     };
 
     _renderPointLayerConfig(props) {
@@ -193,6 +192,8 @@ export default function LayerConfiguratorFactory(SourceDataSelector) {
             fields={visConfiguratorProps.fields}
             updateLayerTextLabel={this.props.updateLayerTextLabel}
             textLabel={layer.config.textLabel}
+            colorPalette={visConfiguratorProps.colorPalette}
+            setColorPaletteUI={visConfiguratorProps.setColorPaletteUI}
           />
         </StyledLayerVisualConfigurator>
       );
@@ -504,6 +505,8 @@ export default function LayerConfiguratorFactory(SourceDataSelector) {
             ) : (
               <ArcLayerColorSelector
                 layer={layer}
+                colorPalette={layerConfiguratorProps.colorPalette}
+                setColorPaletteUI={layerConfiguratorProps.setColorPaletteUI}
                 onChangeConfig={layerConfiguratorProps.onChange}
                 onChangeVisConfig={visConfiguratorProps.onChange}
               />
@@ -768,13 +771,13 @@ export default function LayerConfiguratorFactory(SourceDataSelector) {
       const visConfiguratorProps = {
         ...commonConfigProp,
         onChange: this.props.updateLayerVisConfig,
-        colorPalette: this.props.colorPalette,
-        setColorPaletteUI: this.props.setColorPaletteUI
+        setColorUI: this.props.updateLayerColorUI
       };
 
       const layerConfiguratorProps = {
         ...commonConfigProp,
-        onChange: updateLayerConfig
+        onChange: updateLayerConfig,
+        setColorUI: this.props.updateLayerColorUI
       };
 
       const layerChannelConfigProps = {
@@ -858,7 +861,8 @@ export const LayerColorSelector = ({
   onChange,
   label,
   selectedColor,
-  property = 'color'
+  property = 'color',
+  setColorUI
 }) => (
   <SidePanelSection>
     <ColorSelector
@@ -868,6 +872,8 @@ export const LayerColorSelector = ({
           setColor: rgbValue => onChange({[property]: rgbValue})
         }
       ]}
+      colorUI={layer.config.colorUI[property]}
+      setColorUI={newConfig => setColorUI(property, newConfig)}
     />
   </SidePanelSection>
 );
@@ -875,7 +881,9 @@ export const LayerColorSelector = ({
 export const ArcLayerColorSelector = ({
   layer,
   onChangeConfig,
-  onChangeVisConfig
+  onChangeVisConfig,
+  colorPalette,
+  setColorPaletteUI
 }) => (
   <SidePanelSection>
     <ColorSelector
@@ -892,6 +900,8 @@ export const ArcLayerColorSelector = ({
           label: 'Target'
         }
       ]}
+      colorPalette={colorPalette}
+      setColorPaletteUI={setColorPaletteUI}
     />
   </SidePanelSection>
 );
@@ -900,8 +910,7 @@ export const ColorRangeConfig = ({
   layer,
   onChange,
   property = 'colorRange',
-  colorPalette,
-  setColorPaletteUI
+  setColorUI
 }) => (
   <SidePanelSection>
     <ColorSelector
@@ -912,8 +921,8 @@ export const ColorRangeConfig = ({
           setColor: colorRange => onChange({[property]: colorRange})
         }
       ]}
-      colorPalette={colorPalette}
-      setColorPaletteUI={setColorPaletteUI}
+      colorUI={layer.config.colorUI[property]}
+      setColorUI={newConfig => setColorUI(property, newConfig)}
     />
   </SidePanelSection>
 );

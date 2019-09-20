@@ -150,6 +150,7 @@ export default function SidePanelFactory(
       const layerManagerActions = {
         addLayer: visStateActions.addLayer,
         layerConfigChange: visStateActions.layerConfigChange,
+        layerColorUIChange: visStateActions.layerColorUIChange,
         layerTextLabelChange: visStateActions.layerTextLabelChange,
         layerVisualChannelConfigChange:
         visStateActions.layerVisualChannelConfigChange,
@@ -157,7 +158,6 @@ export default function SidePanelFactory(
         layerVisConfigChange: visStateActions.layerVisConfigChange,
         updateLayerBlending: visStateActions.updateLayerBlending,
         updateLayerOrder: visStateActions.reorderLayer,
-        setColorPaletteUI: uiStateActions.setColorPaletteUI,
         showDatasetTable: this._showDatasetTable,
         showAddDataModal: this._showAddDataModal,
         removeLayer: visStateActions.removeLayer,

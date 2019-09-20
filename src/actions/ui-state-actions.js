@@ -252,17 +252,6 @@ export const setExportHTMLMapMode = createAction(
   payload => payload
 );
 
-/*
- * Set the color palette ui for layer
- * @memberOf uiStateActions
- * @param {object} newConfig
- * @public
- */
-export const setColorPaletteUI = createAction(
-  ActionTypes.SET_COLOR_PALETTE_UI,
-  newConfig => newConfig
-);
-
 // /**
 //  * Set the custom palette for layer
 //  * @memberOf uiStateActions

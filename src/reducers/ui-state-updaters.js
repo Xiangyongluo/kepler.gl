@@ -170,13 +170,6 @@ export const DEFAULT_EXPORT_MAP = {
   format: EXPORT_MAP_FORMATS.HTML
 };
 
-export const DEFAULT_CUSTOM_PALETTE = {
-  name: 'Custom Palette',
-  type: 'custom',
-  category: 'Custom',
-  colors: []
-}
-
 /**
  * Default initial `uiState`
  * @memberof uiStateUpdaters
@@ -209,23 +202,7 @@ export const INITIAL_UI_STATE = {
   // map control panels
   mapControls: DEFAULT_MAP_CONTROLS,
   // ui notifications
-  notifications: DEFAULT_NOTIFICATIONS,
-  // Custom palette
-  colorPalette: {
-    // customPalette in edit
-    customPalette: DEFAULT_CUSTOM_PALETTE,
-    // show color sketcher modal
-    showSketcher: false,
-    // show color range selection panel
-    showColorRangePanel: false,
-    //
-    colorRangeConfig: {
-      type: 'all',
-      steps: 6,
-      reversed: false,
-      custom: false
-    }
-  }
+  notifications: DEFAULT_NOTIFICATIONS
 };
 
 /* Updaters */
@@ -591,16 +568,3 @@ export const removeNotificationUpdater = (state, {payload: id}) => ({
   ...state,
   notifications: state.notifications.filter(n => n.id !== id)
 });
-
-export const setColorPaletteUIUpdater = (state, {payload: newConfig}) => ({
-  ...state,
-  colorPalette: {
-    ...state.colorPalette,
-    ...newConfig
-  }
-});
-
-// export const onToggleSketcherUpdater = (state) => ({
-//   ...state,
-//   showSketcher: !state.showSketcher
-// });

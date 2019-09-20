@@ -125,6 +125,7 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
       layers: PropTypes.arrayOf(PropTypes.any).isRequired,
       // functions
       addLayer: PropTypes.func.isRequired,
+      layerColorUIChange: PropTypes.func.isRequired,
       layerConfigChange: PropTypes.func.isRequired,
       layerTextLabelChange: PropTypes.func.isRequired,
       layerVisualChannelConfigChange: PropTypes.func.isRequired,
@@ -136,7 +137,6 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
       showDatasetTable: PropTypes.func.isRequired,
       updateLayerBlending: PropTypes.func.isRequired,
       updateLayerOrder: PropTypes.func.isRequired,
-      setColorPaletteUI: PropTypes.func.isRequired
     };
     state = {
       isSorting: false
@@ -177,21 +177,21 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
     }
 
     render() {
-      const {layers, datasets, layerOrder, openModal, colorPalette} = this.props;
+      const {layers, datasets, layerOrder, openModal} = this.props;
       const defaultDataset = Object.keys(datasets)[0];
       const layerTypeOptions = this.layerTypeOptionsSelector(this.props);
 
       const layerActions = {
+        layerColorUIChange: this.props.layerColorUIChange,
         layerConfigChange: this.props.layerConfigChange,
         layerVisualChannelConfigChange: this.props.layerVisualChannelConfigChange,
         layerTypeChange: this.props.layerTypeChange,
         layerVisConfigChange: this.props.layerVisConfigChange,
         layerTextLabelChange: this.props.layerTextLabelChange,
-        removeLayer: this.props.removeLayer,
-        setColorPaletteUI: this.props.setColorPaletteUI
+        removeLayer: this.props.removeLayer
       };
 
-      const panelProps = {datasets, openModal, layerTypeOptions, colorPalette};
+      const panelProps = {datasets, openModal, layerTypeOptions};
 
       return (
         <div className="layer-manager">

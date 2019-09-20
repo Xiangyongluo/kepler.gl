@@ -314,7 +314,10 @@ class CustomPalette extends Component {
             parentSelector={() => {
               // React modal issue: https://github.com/reactjs/react-modal/issues/769
               // failed to execute removeChild on parent node when it is already unmounted
-              return this.root.current || {removeChild: () => {}}
+              return this.root.current || {
+                removeChild: () => {},
+                appendChild: () => {}
+              }
             }}
           >
             <CustomPicker
