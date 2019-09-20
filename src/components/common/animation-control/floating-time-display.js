@@ -24,6 +24,7 @@ import moment from 'moment';
 import {createSelector} from 'reselect';
 import {Minus} from 'components/common/icons';
 import {DEFAULT_TIME_FORMAT} from 'constants/default-settings';
+import {CenterFlexbox} from 'components/common/styled-components';
 
 const StyledTimeDisplay = styled.div`
   background-color: ${props => props.theme.panelBackground};
@@ -92,11 +93,11 @@ const TimeDivider = () => (
 );
 
 const TimeDisplayRow = ({timeValues = []}) => (
-  <div style={{display: 'flex'}}>
+  <CenterFlexbox>
     <div>{timeValues[0]}</div>
     {timeValues[1] ? <TimeDivider /> : null}
     {timeValues[1] ? <div>{timeValues[1]}</div> : null}
-  </div>
+  </CenterFlexbox>
 );
 
 export default function FloatingTimeDisplayFactory() {

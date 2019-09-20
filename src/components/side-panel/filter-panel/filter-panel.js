@@ -47,6 +47,10 @@ const StyledFilterPanel = styled.div`
 const StyledFilterHeader = styled(StyledPanelHeader)`
   cursor: pointer;
   padding: 10px 12px;
+
+  .field-selector {
+    width: calc(100% - 58px);
+  }
 `;
 
 const StyledFilterContent = styled.div`
@@ -133,15 +137,13 @@ function FilterPanelFactory(
         <StyledFilterPanel className="filter-panel">
           <StyledFilterHeader className="filter-panel__header"
             labelRCGColorValues={datasets[dataId].color}>
-            <div style={{flexGrow: 1}}>
-              <FieldSelector
-                inputTheme="secondary"
-                fields={allAvailableFields}
-                value={name}
-                erasable={false}
-                onSelect={value => setFilter(idx, 'name', value.name)}
-              />
-            </div>
+            <FieldSelector
+              inputTheme="secondary"
+              fields={allAvailableFields}
+              value={name}
+              erasable={false}
+              onSelect={value => setFilter(idx, 'name', value.name)}
+            />
             <PanelHeaderAction
               id={filter.id}
               tooltip="delete"

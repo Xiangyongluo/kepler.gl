@@ -40,7 +40,10 @@ const StyledRangeSlider = styled.div`
 
 const SliderWrapper = styled.div`
   flex-grow: 1;
-  margin-top: ${props => (props.isRanged ? 0 : 12)}px;
+  margin-top: ${props =>
+    props.isRanged
+      ? props.theme.sliderMarginTopIsRange
+      : props.theme.sliderMarginTop}px;
 `;
 
 export default class Slider extends Component {
@@ -85,7 +88,9 @@ export default class Slider extends Component {
   ref = createRef();
 
   _getBaseDistance() {
-    return this.props.vertical ? this.ref.current.offsetHeight : this.ref.current.offsetWidth;
+    return this.props.vertical
+      ? this.ref.current.offsetHeight
+      : this.ref.current.offsetWidth;
   }
 
   _getValDelta(x) {

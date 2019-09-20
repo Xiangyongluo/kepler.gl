@@ -79,19 +79,16 @@ export function isTripGeoJsonField(allData = [], field) {
 
   const features = sampleRawFeatures.map(parseGeoJsonRawFeature);
 
-  let isTrip = false;
   const featureTypes = getGeojsonFeatureTypes(features);
 
   // condition 1: contain line string
-  const hasLineString = Boolean(featureTypes.line);
-  if (!hasLineString) {
-    return isTrip;
+  if (!featureTypes.line) {
+    return false;
   }
 
   // condition 2:sample line strings contain 4 coordinates
-  const HasLength4 = coordHasLength4(features);
-  if (!HasLength4) {
-    return isTrip;
+  if (!coordHasLength4(features)) {
+    return false;
   }
 
   // condition 3:the 4th coordinate of the first feature line strings is valid time
@@ -99,12 +96,7 @@ export function isTripGeoJsonField(allData = [], field) {
     coord => coord[3]
   );
 
-  const hasValidTime = containValidTime(tsHolder);
-  if (hasValidTime) {
-    isTrip = true;
-  }
-
-  return isTrip;
+  return Boolean(containValidTime(tsHolder));
 }
 
 /**

@@ -45,7 +45,7 @@ const AnimationWidgetInner = styled.div`
   height: 32px;
 
   .animation-control__speed-control {
-    margin-right: -12px;
+    margin-right: -10px;
 
     .animation-control__speed-slider {
       right: calc(0% - 10px);
@@ -170,7 +170,7 @@ function AnimationControlFactory(
             <StyledDomain className="animation-control__time-domain">
               <span>{moment.utc(domain[1]).format(defaultTimeFormat)}</span>
             </StyledDomain>
-            <div style={{marginRight: '-10px'}}>
+            <div className="animation-control__speed-control">
               <SpeedControl
                 onClick={this.toggleSpeedControl}
                 showSpeedControl={showSpeedControl}
