@@ -136,7 +136,7 @@ function LayerManagerFactory(AddDataButton, LayerPanel, SourceDataCatalog) {
       removeDataset: PropTypes.func.isRequired,
       showDatasetTable: PropTypes.func.isRequired,
       updateLayerBlending: PropTypes.func.isRequired,
-      updateLayerOrder: PropTypes.func.isRequired,
+      updateLayerOrder: PropTypes.func.isRequired
     };
     state = {
       isSorting: false

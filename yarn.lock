@@ -7422,10 +7422,6 @@ react-color@^2.17.3:
     reactcss "^1.2.0"
     tinycolor2 "^1.4.1"
 
-react-data-grid@2.0.80-am-fix-defaultprops-warnings3337:
-  version "2.0.80-am-fix-defaultprops-warnings3337"
-  resolved "https://registry.yarnpkg.com/react-data-grid/-/react-data-grid-2.0.80-am-fix-defaultprops-warnings3337.tgz#a822e6266f828e66946827e69ee7ea5ba8db4bf2"
-
 react-deep-force-update@^2.1.1:
   version "2.1.3"
   resolved "https://registry.yarnpkg.com/react-deep-force-update/-/react-deep-force-update-2.1.3.tgz#740612322e617bcced38f61794a4af75dc3d98e7"
